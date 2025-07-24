@@ -32,13 +32,32 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
     const { email, password } = req.body
-    try {
-        const user = await User.findOne({ email })
-        if (!user || !(await user.matchPassword(password))) {
-            return res.status(401).json({ message: 'Invalid credentials' })
-        }
+    console.log('--- LOGIN ATTEMPT ---')
+    console.log('Received email:', email)
+        console.log('Received password:', password)
 
-        res.s.json({
+        try {
+            const user = await User.findOne({ email })
+            console.log('User found from DB:', user ? user.email : 'NOT FOUND')
+
+            if (!user) {
+                console.log('Reason for login failure: User not found.')
+                return res.status(401).json({ message: 'Invalid credentials' })
+            }
+
+            const isPasswordMatch = await user.matchPassword(password)
+            console.log('Password comparison result (isPasswordMatch):', isPasswordMatch)
+
+            if (!isPasswordMatch) {
+                console.log('Reason for login failure: Password mismatch.')
+                return res.status(401).json({ message: 'Invalid credentials '})
+            }
+
+            console.log('Login successful! Generating token...')
+            const token = generateToken(user)
+            console.log('Token generated:', token ? 'YES' : 'NO')
+
+        res.status(200).json({
             _id: user._id,
             name: user.name,
             email: user.email,
