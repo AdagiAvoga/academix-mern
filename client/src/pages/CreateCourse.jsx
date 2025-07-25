@@ -10,12 +10,13 @@ const CreateCourse = () => {
         e.preventDefault()
         try {
             const token = localStorage.getItem('token')
-            const res = await axios.post('http:localhost:5000/api/courses', {
+            const res = await axios.post('http://localhost:5000/api/courses', {
                 title,
                 description,
-                instructor: JSON.parse(localStorage.getItem('user'))._id
             }, {
-                headers: { Authorization: `Bearer ${token}` }
+                headers: 
+                    { Authorization: `Bearer ${localStorage.getItem(token)}`,
+                    }
             })
             setMessage('Course created successfully!')
             setTitle('')
