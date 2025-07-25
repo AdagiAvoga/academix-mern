@@ -13,7 +13,11 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login /> } />
         <Route path="/register" element={<Register /> } />
-        <Route path="*" element={<div>Home / Dashboard Coming Soon</div>} />
+        <Route path="/dashboard" element={
+          <div>
+            <h1>Welcome to the Dashboard</h1>
+            <p>You can view and manage courses here</p>
+            </div>} />
         <Route path="/create-course" element={<CreateCourse /> } />
         <Route path="/courses" element={<CourseList /> } />
         <Route path="/add-lesson" element={<AddLesson />} />
